@@ -1,0 +1,372 @@
+/* ─── Tailwind directives ─────────────────────────────────────────
+   Phase 1 foundation. `@tailwind base` is effectively empty because
+   `corePlugins.preflight = false` in tailwind.config.js — we kept our
+   existing CSS reset (the `*` rule below) intact to preserve visual
+   equivalence with the pre-Tailwind app. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ─── Design tokens ─────────────────────────────────────────────────
+   CeTeau AI palette. Defaults are light mode. Dark mode is applied via
+   either (a) prefers-color-scheme: dark when no explicit override, or
+   (b) [data-theme="dark"] on <html> for user-selected dark mode.
+   The user may also force light with [data-theme="light"].
+
+   Each color token has TWO forms:
+     • hex / rgba  (--accent, --bg-primary, etc.) — direct CSS usage.
+     • space-separated RGB channels (--accent-rgb, --bg-primary-rgb,
+       etc.) — consumed by Tailwind utilities via the
+       `rgb(var(--…-rgb) / <alpha-value>)` pattern so Tailwind opacity
+       modifiers (e.g. `bg-accent/15`) keep working. */
+
+:root {
+  /* Surfaces */
+  --bg-primary: #FFFFFF;     /* cards / surfaces */
+  --bg-secondary: #F8F9FA;   /* canvas background */
+  --bg-tertiary: #F1F5F9;    /* subtle hover surfaces */
+  --bg-hover: #E2E8F0;       /* interactive hover */
+
+  --bg-primary-rgb:   255 255 255;
+  --bg-secondary-rgb: 248 249 250;
+  --bg-tertiary-rgb:  241 245 249;
+
+  /* Text */
+  --text-primary: #1A202C;   /* deep slate */
+  --text-secondary: #64748B; /* muted gray */
+  --text-tertiary: #94A3B8;  /* placeholder / disabled */
+
+  --text-primary-rgb:   26 32 44;
+  --text-secondary-rgb: 100 116 139;
+  --text-tertiary-rgb:  148 163 184;
+
+  /* Lines */
+  --border: #E2E8F0;
+  --border-rgb: 226 232 240;
+
+  /* Brand accent — CeTeau Blue */
+  --accent: #0073C2;
+  --accent-light: #E6F1FA;
+  --accent-hover: #005A9C;
+  --accent-rgb: 0 115 194;             /* space-separated for rgb(var() / alpha) syntax */
+  --accent-bg: rgba(0, 115, 194, 0.10);/* tinted hover / dropzone backgrounds */
+
+  /* Semantic states */
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+
+  --success-rgb: 16 185 129;
+  --warning-rgb: 245 158 11;
+  --error-rgb:   239 68 68;
+
+  /* Pills — semantic chips used in source/status badges. Light mode
+     uses pale-tinted bg + saturated fg; dark mode flips to a soft
+     translucent overlay + brighter fg so they stay legible against
+     the slate canvas without looking jarring. */
+  --pill-info-bg: #E6F1FA;
+  --pill-info-fg: #0073C2;
+  --pill-success-bg: #D1FAE5;
+  --pill-success-fg: #047857;
+  --pill-warning-bg: #FEF3C7;
+  --pill-warning-fg: #B45309;
+  --pill-danger-bg: #FEE2E2;
+  --pill-danger-fg: #B91C1C;
+
+  /* Code blocks — intentionally dark in BOTH themes for stable
+     syntax-highlighting context (Python / JSON / model output). */
+  --code-bg: #0F172A;
+  --code-fg: #F8FAFC;
+  --code-border: transparent;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px 0 rgba(15,23,42,0.06), 0 1px 3px 1px rgba(15,23,42,0.04);
+  --shadow-md: 0 1px 3px 0 rgba(15,23,42,0.08), 0 4px 8px 3px rgba(15,23,42,0.06);
+  --shadow-lg: 0 1px 3px 0 rgba(15,23,42,0.1),  0 8px 16px 4px rgba(15,23,42,0.08);
+
+  /* Geometry */
+  --radius: 8px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* Typography */
+  --font-sans: 'Google Sans', 'Noto Sans Thai', 'Roboto', -apple-system, sans-serif;
+  --font-mono: 'Roboto Mono', 'Fira Code', monospace;
+
+  /* Layout */
+  --sidebar-width: 280px;
+  --header-height: 56px;
+
+  color-scheme: light;
+}
+
+/* ─── Dark token set (shared between auto + manual dark) ─── */
+:root[data-theme="dark"],
+:root.theme-dark,
+:root.dark {
+  --bg-primary: #1E293B;
+  --bg-secondary: #0F172A;
+  --bg-tertiary: #243447;
+  --bg-hover: #334155;
+
+  --bg-primary-rgb:   30 41 59;
+  --bg-secondary-rgb: 15 23 42;
+  --bg-tertiary-rgb:  36 52 71;
+
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-tertiary: #64748B;
+
+  --text-primary-rgb:   248 250 252;
+  --text-secondary-rgb: 148 163 184;
+  --text-tertiary-rgb:  100 116 139;
+
+  --border: #334155;
+  --border-rgb: 51 65 85;
+
+  --accent: #008BE6;
+  --accent-light: rgba(0, 139, 230, 0.15);
+  --accent-hover: #0073C2;
+  --accent-rgb: 0 139 230;
+  --accent-bg: rgba(0, 139, 230, 0.12);
+
+  --pill-info-bg: rgba(0, 139, 230, 0.15);
+  --pill-info-fg: #5BB6F5;
+  --pill-success-bg: rgba(16, 185, 129, 0.15);
+  --pill-success-fg: #34D399;
+  --pill-warning-bg: rgba(245, 158, 11, 0.15);
+  --pill-warning-fg: #FBBF24;
+  --pill-danger-bg: rgba(239, 68, 68, 0.15);
+  --pill-danger-fg: #F87171;
+
+  /* Code blocks: lift to surface tier with a soft border so they
+     stay clearly offset from the slate canvas. */
+  --code-bg: #1E293B;
+  --code-fg: #F8FAFC;
+  --code-border: #334155;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.30), 0 1px 3px 1px rgba(0,0,0,0.20);
+  --shadow-md: 0 1px 3px 0 rgba(0,0,0,0.35), 0 4px 8px 3px rgba(0,0,0,0.25);
+  --shadow-lg: 0 1px 3px 0 rgba(0,0,0,0.40), 0 8px 16px 4px rgba(0,0,0,0.30);
+
+  color-scheme: dark;
+}
+
+/* ─── Auto dark mode (OS preference) when user has not explicitly
+   chosen Light. [data-theme="light"] always wins. ─── */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    --bg-primary: #1E293B;
+    --bg-secondary: #0F172A;
+    --bg-tertiary: #243447;
+    --bg-hover: #334155;
+
+    --bg-primary-rgb:   30 41 59;
+    --bg-secondary-rgb: 15 23 42;
+    --bg-tertiary-rgb:  36 52 71;
+
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --text-tertiary: #64748B;
+
+    --text-primary-rgb:   248 250 252;
+    --text-secondary-rgb: 148 163 184;
+    --text-tertiary-rgb:  100 116 139;
+
+    --border: #334155;
+    --border-rgb: 51 65 85;
+
+    --accent: #008BE6;
+    --accent-light: rgba(0, 139, 230, 0.15);
+    --accent-hover: #0073C2;
+    --accent-rgb: 0 139 230;
+    --accent-bg: rgba(0, 139, 230, 0.12);
+
+    --pill-info-bg: rgba(0, 139, 230, 0.15);
+    --pill-info-fg: #5BB6F5;
+    --pill-success-bg: rgba(16, 185, 129, 0.15);
+    --pill-success-fg: #34D399;
+    --pill-warning-bg: rgba(245, 158, 11, 0.15);
+    --pill-warning-fg: #FBBF24;
+    --pill-danger-bg: rgba(239, 68, 68, 0.15);
+    --pill-danger-fg: #F87171;
+
+    --code-bg: #1E293B;
+    --code-fg: #F8FAFC;
+    --code-border: #334155;
+
+    --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.30), 0 1px 3px 1px rgba(0,0,0,0.20);
+    --shadow-md: 0 1px 3px 0 rgba(0,0,0,0.35), 0 4px 8px 3px rgba(0,0,0,0.25);
+    --shadow-lg: 0 1px 3px 0 rgba(0,0,0,0.40), 0 8px 16px 4px rgba(0,0,0,0.30);
+
+    color-scheme: dark;
+  }
+}
+
+html, body, #root {
+  height: 100%;
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+button {
+  font-family: var(--font-sans);
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: 14px;
+}
+
+input, textarea, select {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 12px;
+  outline: none;
+  transition: border-color 0.2s;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+textarea {
+  resize: vertical;
+}
+
+code, pre {
+  font-family: var(--font-mono);
+}
+
+/* Recharts SVG text — ensure Thai glyphs render correctly */
+.recharts-wrapper text,
+.recharts-wrapper tspan,
+.recharts-text,
+.recharts-cartesian-axis-tick-value,
+.recharts-legend-item-text,
+.recharts-tooltip-label,
+.recharts-tooltip-item-name,
+.recharts-tooltip-item-value,
+.recharts-label {
+  font-family: var(--font-sans) !important;
+}
+
+pre {
+  background: var(--code-bg);
+  color: var(--code-fg);
+  border: 1px solid var(--code-border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+pre code {
+  background: transparent;
+  color: inherit;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+/* Utility */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+.btn-primary:hover {
+  background: var(--accent-hover);
+  box-shadow: var(--shadow-sm);
+}
+.btn-secondary {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+.btn-secondary:hover {
+  background: var(--bg-hover);
+}
+.btn-ghost {
+  color: var(--text-secondary);
+}
+.btn-ghost:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+.btn-danger {
+  color: var(--error);
+}
+.btn-danger:hover {
+  background: var(--pill-danger-bg);
+}
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 260px;
+    --header-height: 48px;
+  }
+
+  .btn {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .btn-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  input, textarea, select {
+    font-size: 16px; /* prevents iOS zoom on focus */
+  }
+}

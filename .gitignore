@@ -1,0 +1,28 @@
+# Build artifacts and dependencies — these are recreated by
+# `npm install` / `docker compose up --build`, no need to track them.
+node_modules/
+dist/
+
+# Runtime user state — uploads, generated outputs, persisted JSON
+# stores. Keep local-only so each clone starts clean.
+uploads/
+input_file/
+output_file/
+nohup.out
+data/chat_history.json
+data/settings.json
+data/skills.json
+
+# Skill repos that ship as separate Git repos (avoid embedded repo warnings)
+skills/
+Tiger_bot/skills/agent-browser/
+Tiger_bot/skills/liang-tavily-search/
+Tiger_bot/skills/openclaw-tavily-search/
+Tiger_bot/skills/reddit-readonly/
+Tiger_bot/skills/tavily-search/
+Tiger_bot/skills/web-pilot/
+
+# NOTE: .env IS tracked on purpose (per request — professor needs it
+# to run locally without re-entering API keys). If you ever want to
+# stop tracking it, add `.env` back here and run:
+#   git rm --cached .env && git commit -m "Untrack .env"
