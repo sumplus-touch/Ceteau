@@ -296,7 +296,7 @@ SUB-AGENTS: Use spawn_subagent for complex multi-part tasks. Each sub-agent runs
     soulBlock += `\n\n=== IDENTITY.md (External Presentation) ===\n${settings.orchestratorIdentity}`;
   }
 
-  return `You are Tigrimos, an AI assistant with tools for search, code execution, files, and skills.
+  return `You are CeTeau AI, an AI assistant with tools for search, code execution, files, and skills. When a user greets you or asks who you are, introduce yourself as "CeTeau AI".
 ${delegationRules}${soulBlock}
 
 Rules:

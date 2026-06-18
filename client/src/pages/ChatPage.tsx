@@ -317,6 +317,15 @@ export default function ChatPage() {
   const [showScrollBottom, setShowScrollBottom] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  // ── UX: restore an unsent message to the input box ──────────────────
+  // When a send is stopped/cancelled or ends without a real reply, put the
+  // user's text + attachments back so they aren't lost. Captured at send
+  // time; cleared in onResponse on a genuine reply; restored by the
+  // thinking→idle effect below. NOTE: the backend posts a
+  // "Task was cancelled." assistant reply on Stop, so that content is
+  // treated as NOT successful (we keep the pending text and restore it).
+  const pendingSendRef = useRef<{ text: string; files: AttachedFile[]; sentContent: string } | null>(null);
+  const wasThinkingRef = useRef(false);
   const [autoCreatedArch, setAutoCreatedArch] = useState<{ filename: string; systemName: string } | null>(null);
   const [showAgentEditor, setShowAgentEditor] = useState(false);
   const [agentEditorYaml, setAgentEditorYaml] = useState<string | undefined>();
@@ -686,10 +695,32 @@ export default function ChatPage() {
       // Don't clear activeTaskSessions here — let the "done" status handle it
       // to avoid premature green dot removal while the task is still cleaning up
       if (data.sessionId === activeSession) {
+        // The backend emits a "Task was cancelled." chat:response on Stop.
+        // That is NOT a successful turn: keep the pending text (the
+        // thinking→idle effect restores it to the input box) and "un-send"
+        // the user's message below. A genuine reply clears the pending ref.
+        const cancelled = !!data.content?.startsWith("Task was cancelled.");
+        if (!cancelled) pendingSendRef.current = null;
+        const unsent = cancelled ? pendingSendRef.current : null;
+
         // Refresh messages from server to get the complete history including the new response
         wasLoadingRef.current = false;
-        api.getSession(activeSession).then((session: any) => {
-          setMessages(session.messages || []);
+        api.getSession(activeSession).then(async (session: any) => {
+          let msgs = (session.messages || []) as Message[];
+          // True un-send: on a cancelled turn, remove the user message we
+          // just sent from the transcript AND the backend, keeping the
+          // "Task was cancelled." notice. Matched by content so we delete
+          // exactly the prompt that was cancelled.
+          if (unsent) {
+            for (let i = msgs.length - 1; i >= 0; i--) {
+              if (msgs[i].role === "user" && msgs[i].content === unsent.sentContent) {
+                try { await api.deleteMessage(activeSession, i, unsent.sentContent); } catch { /* ignore */ }
+                msgs = msgs.slice(0, i).concat(msgs.slice(i + 1));
+                break;
+              }
+            }
+          }
+          setMessages(msgs);
           // Force output panel refresh so new files (images, PDFs) render immediately
           setOutputRefreshKey((k) => k + 1);
         });
@@ -807,6 +838,24 @@ export default function ChatPage() {
       chunkBufferRef.current = "";
     };
   }, [activeSession, onChunk, onResponse, onStatus]);
+
+  // ── UX: restore an unsent message when a turn ends unsuccessfully ────
+  // Fires on the thinking→idle transition. `isThinking` drops to false on
+  // a real reply, on Stop, and on silent failures/disconnects. If a
+  // genuine reply arrived, onResponse already cleared pendingSendRef, so
+  // we skip. Otherwise (Stop / cancel / no reply) we put the user's text
+  // + attachments back — but never clobber anything they've already
+  // started typing for their next message.
+  useEffect(() => {
+    const thinking = runningTaskIds.size > 0 || !!streaming;
+    if (wasThinkingRef.current && !thinking && pendingSendRef.current) {
+      const pending = pendingSendRef.current;
+      pendingSendRef.current = null;
+      setInput((cur) => (cur.trim() ? cur : pending.text));
+      setAttachedFiles((cur) => (cur.length ? cur : pending.files));
+    }
+    wasThinkingRef.current = thinking;
+  }, [runningTaskIds, streaming]);
 
   // ─── Listen for auto-created architecture events ───
   useEffect(() => {
@@ -953,6 +1002,12 @@ export default function ChatPage() {
       attachments: attachedFiles.length > 0 ? [...attachedFiles] : undefined,
     };
 
+    // UX: remember what was sent so we can restore it if this turn is
+    // stopped/cancelled or ends without a successful reply (see the
+    // thinking→idle effect). Capture the raw text + a copy of the files
+    // for restoring to the input box, plus `msg` (the exact persisted
+    // content) so onResponse can find and delete that message on cancel.
+    pendingSendRef.current = { text: input, files: [...attachedFiles], sentContent: msg };
     setInput("");
     setAttachedFiles([]);
     if (textareaRef.current) textareaRef.current.style.height = "auto";

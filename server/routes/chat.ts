@@ -146,6 +146,34 @@ export async function chatRoutes(fastify: FastifyInstance) {
     return { ok: true, feedback: msg.feedback || null };
   });
 
+  // Delete a single message by index — used to "un-send" a cancelled or
+  // failed user message so its text can be restored to the input box.
+  // Safety: only USER messages may be deleted here (never assistant
+  // replies), and an optional `expected` content check guards against a
+  // race deleting the wrong message if the list shifted underneath us.
+  fastify.delete("/sessions/:id/messages/:index", async (request, reply) => {
+    const sessionId = (request.params as any).id;
+    const index = parseInt((request.params as any).index, 10);
+    const sessions = await getChatHistory();
+    const session = sessions.find((s) => String(s.id) === String(sessionId));
+    if (!session) { reply.code(404); return { ok: false, error: "Session not found" }; }
+    if (!Number.isFinite(index) || index < 0 || index >= session.messages.length) {
+      reply.code(400); return { ok: false, error: "Invalid message index" };
+    }
+    const target: any = session.messages[index];
+    if (target.role !== "user") {
+      reply.code(409); return { ok: false, error: "Refusing to delete a non-user message" };
+    }
+    const expected = (request.query as any)?.expected;
+    if (typeof expected === "string" && target.content !== expected) {
+      reply.code(409); return { ok: false, error: "Message content mismatch — not deleting" };
+    }
+    session.messages.splice(index, 1);
+    session.updatedAt = new Date().toISOString();
+    await saveChatHistory(sessions);
+    return { ok: true };
+  });
+
   // Send message (non-streaming fallback)
   fastify.post("/sessions/:id/messages", async (request, reply) => {
     const sessions = await getChatHistory();

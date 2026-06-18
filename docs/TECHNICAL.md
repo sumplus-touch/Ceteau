@@ -1,10 +1,10 @@
-# Tigrimos — Technical Documentation
+# CeTeau AI — Technical Documentation
 
 ## Architecture
 
-![Tigrimos Agent Workflow](../picture/Tigrimos_workflow.png)
+![CeTeau AI Agent Workflow](../picture/Tigrimos_workflow.png)
 
-The diagram above illustrates the **Tool Use & Reasoning Loop** at the core of Tigrimos's AI agent:
+The diagram above illustrates the **Tool Use & Reasoning Loop** at the core of CeTeau AI's AI agent:
 
 1. **User Input** — The user sends a message through the chat interface.
 2. **Agent Reasoning** — The AI analyzes the query and plans which actions to take.
@@ -315,7 +315,7 @@ Configure these in **Settings > Agent Parameters > Sub-Agent**.
 
 ## Security Notice
 
-> **This app can execute shell commands, Python code, and install third-party skills.** For safety, it is strongly recommended to run Tigrimos inside a sandboxed environment such as a **Docker container**.
+> **This app can execute shell commands, Python code, and install third-party skills.** For safety, it is strongly recommended to run CeTeau AI inside a sandboxed environment such as a **Docker container**.
 
 ### Recommended: Run in Docker (Ubuntu)
 
@@ -412,7 +412,7 @@ You can also generate these commands automatically:
 
 ### Access Token Protection
 
-Tigrimos supports a simple access token to protect the app from unauthorized access.
+CeTeau AI supports a simple access token to protect the app from unauthorized access.
 
 **Setup:**
 
@@ -602,7 +602,7 @@ Tigrimos/
 
 ## Agent Communication Architecture
 
-Tigrimos agents communicate through four protocols and seven orchestration topologies. Understanding how agents connect, discover each other, and exchange information is key to designing effective multi-agent systems.
+CeTeau AI agents communicate through four protocols and seven orchestration topologies. Understanding how agents connect, discover each other, and exchange information is key to designing effective multi-agent systems.
 
 ### How Agents Discover Each Other
 
@@ -881,7 +881,7 @@ codex login     # one-time OAuth login
 codex exec "hello"
 ```
 
-**Use in Tigrimos:**
+**Use in CeTeau AI:**
 1. Open the Agent Editor → select an agent → check "Specify model for this agent"
 2. Choose Claude Code (Local CLI), Codex (Local CLI), or any API model
 3. Each agent runs on its assigned backend

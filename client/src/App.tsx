@@ -3,6 +3,7 @@ import AppShell from "./components/layout/AppShell";
 import Toaster from "./components/layout/Toaster";
 import AuthGate from "./components/AuthGate";
 import ChatPage from "./pages/ChatPage";
+import ChatsPage from "./pages/ChatsPage";
 import FilesPage from "./pages/FilesPage";
 import TasksPage from "./pages/TasksPage";
 import SkillsPage from "./pages/SkillsPage";
@@ -41,6 +42,7 @@ export default function App() {
         <Route element={<AppShell />}>
           <Route path="/"             element={<ChatPage />} />
           <Route path="/chat/:id"     element={<ChatPage />} />
+          <Route path="/chats"        element={<ChatsPage />} />
 
           {/* Canonical project routes (singular, matches agentflow).
               Phase 3: split into list page (ProjectsPage) and detail

@@ -1,6 +1,8 @@
-![Tiger CoWork Banner](picture/screen_read.png)
+![CeTeau AI Banner](picture/screen_read.png)
 
-# Tiger CoWork v0.7.1
+# CeTeau AI v0.7.1
+
+> Forked from [Sompote/tiger_cowork](https://github.com/Sompote/tiger_cowork) and rebranded as CeTeau | AI.
 
 A self-hosted AI workspace with chat, code execution, parallel multi-agent orchestration, cross-machine agent connection, and a skill marketplace. Mix different AI providers in the same agent team — OpenAI-compatible APIs, Claude Code CLI, and Codex CLI. Connect agents across machines on your network so distributed teams can collaborate in real time. Connect external MCP servers to extend the AI's toolbox. Built with 16 built-in tools and designed for long-running sessions with smart context compression and checkpoint recovery.
 
@@ -31,15 +33,15 @@ A self-hosted AI workspace with chat, code execution, parallel multi-agent orche
 
 ## Screenshots
 
-![Tiger CoWork — AI chat with output panel](picture/screen3.jpg)
+![CeTeau AI — AI chat with output panel](picture/screen3.jpg)
 
 *AI Chat with tool-calling — generates React/Recharts visualizations rendered in the output panel.*
 
-![Tiger CoWork — Agent System Editor](picture/agent2.jpg)
+![CeTeau AI — Agent System Editor](picture/agent2.jpg)
 
 *Visual Agent Editor — drag-and-drop multi-agent design with mesh networking and YAML export.*
 
-![Tiger CoWork — Minecraft Task Monitor](picture/screen5.png)
+![CeTeau AI — Minecraft Task Monitor](picture/screen5.png)
 
 *Minecraft Task Monitor — live pixel-art agents with speech bubbles, walking animations, and inter-agent interactions.*
 
@@ -95,7 +97,7 @@ Log in to your Linux server directly or via SSH:
 ssh root@<your-server-ip>
 ```
 
-> **⚠️ Security Warning:** AI agents can execute arbitrary code and shell commands that may modify or delete files on the host system. It is strongly recommended to run Tiger CoWork on a **VPS or dedicated machine that contains no important data**. Do not run it on a machine with sensitive or irreplaceable information.
+> **⚠️ Security Warning:** AI agents can execute arbitrary code and shell commands that may modify or delete files on the host system. It is strongly recommended to run CeTeau AI on a **VPS or dedicated machine that contains no important data**. Do not run it on a machine with sensitive or irreplaceable information.
 
 **Prerequisites:** Node.js >= 18, npm, Python 3 (optional)
 
@@ -106,7 +108,7 @@ bash setup.sh        # installs deps, prompts for ClawHub token
 npm run build && npm start   # → http://localhost:3001
 ```
 
-> **Running in background (recommended):** Use [PM2](https://pm2.keymetrics.io/) to keep Tiger CoWork running after you close the terminal.
+> **Running in background (recommended):** Use [PM2](https://pm2.keymetrics.io/) to keep CeTeau AI running after you close the terminal.
 >
 > ```bash
 > npm install -g pm2          # install PM2 globally
@@ -135,7 +137,7 @@ npm run build && npm start   # → http://localhost:3001
 
 ## Automatic Skill Generation
 
-Tiger CoWork can automatically synthesise reusable `SKILL.md` workflows from your past chat sessions. After a chat finishes, an LLM-driven pipeline reviews recent conversations and either proposes a brand-new skill, refines an existing auto-generated one, or — when 👎 feedback was left — surgically rewrites the auto-skill most likely responsible. Future chats then match a stored procedure instead of re-improvising from scratch.
+CeTeau AI can automatically synthesise reusable `SKILL.md` workflows from your past chat sessions. After a chat finishes, an LLM-driven pipeline reviews recent conversations and either proposes a brand-new skill, refines an existing auto-generated one, or — when 👎 feedback was left — surgically rewrites the auto-skill most likely responsible. Future chats then match a stored procedure instead of re-improvising from scratch.
 
 ### How it works
 

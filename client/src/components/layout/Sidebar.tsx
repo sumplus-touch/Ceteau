@@ -85,11 +85,14 @@ function NavRow({
 }
 
 // ── Section header ────────────────────────────────────────────────────
-function SectionHeader({ children }: { children: React.ReactNode }) {
+function SectionHeader({ children, action }: { children: React.ReactNode; action?: React.ReactNode }) {
   return (
-    <p className="px-2 mb-1.5 text-[10px] font-semibold uppercase tracking-widest text-fg-subtle">
-      {children}
-    </p>
+    <div className="px-2 mb-1.5 flex items-center justify-between gap-2">
+      <p className="text-[10px] font-semibold uppercase tracking-widest text-fg-subtle">
+        {children}
+      </p>
+      {action}
+    </div>
   );
 }
 
@@ -410,7 +413,20 @@ export default function Sidebar() {
           </section>
 
           <section>
-            <SectionHeader>Recents</SectionHeader>
+            <SectionHeader
+              action={
+                <button
+                  type="button"
+                  onClick={() => navigate("/chats")}
+                  className="text-[10px] font-semibold uppercase tracking-widest text-accent hover:text-accent/80 transition-colors duration-150"
+                  title="View all chat history"
+                >
+                  View all
+                </button>
+              }
+            >
+              Recents
+            </SectionHeader>
             <DropZone id={RECENT_ZONE_ID}>
               {recent.length === 0 ? (
                 <p className="text-[11px] text-fg-subtle px-3 py-3 text-center">No conversations yet</p>

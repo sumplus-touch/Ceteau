@@ -57,6 +57,11 @@ export const api = {
   renameSession: (id: string, title: string) => request(`/chat/sessions/${id}`, { method: "PATCH", body: JSON.stringify({ title }) }),
   saveMessageFeedback: (sessionId: string, index: number, payload: { rating?: "up" | "down" | null; comment?: string; clear?: boolean }) =>
     request(`/chat/sessions/${sessionId}/messages/${index}/feedback`, { method: "POST", body: JSON.stringify(payload) }),
+  // Delete a single user message (used to "un-send" a cancelled prompt).
+  // `expected` is the message content, sent as a guard so the server only
+  // deletes if the message at that index still matches.
+  deleteMessage: (sessionId: string, index: number, expected?: string) =>
+    request(`/chat/sessions/${sessionId}/messages/${index}${expected != null ? `?expected=${encodeURIComponent(expected)}` : ""}`, { method: "DELETE" }),
 
   // Files
   listFiles: (path?: string) => request(`/files?path=${encodeURIComponent(path || "")}`),

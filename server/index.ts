@@ -243,7 +243,7 @@ async function start() {
   }
 
   await fastify.listen({ port: PORT, host: "0.0.0.0" });
-  console.log(`Tigrimos running on http://localhost:${PORT}`);
+  console.log(`CeTeau AI running on http://localhost:${PORT}`);
   console.log(`Sandbox directory: ${SANDBOX_DIR}`);
 
   // Initialize MCP servers in background (don't block startup)

@@ -846,7 +846,7 @@ async function webSearch(args: { query: string }): Promise<any> {
   try {
     const wikiRes = await fetch(
       `https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=${encodeURIComponent(query)}&srlimit=3`,
-      { headers: { "User-Agent": "Tigrimos/1.0" } }
+      { headers: { "User-Agent": "CeTeau-AI/1.0" } }
     );
     const wikiData = await wikiRes.json();
     for (const item of (wikiData.query?.search || [])) {
@@ -870,7 +870,7 @@ async function fetchUrl(args: { url: string; method?: string }): Promise<any> {
   try {
     const response = await fetch(url, {
       method: method || "GET",
-      headers: { "User-Agent": "Tigrimos/1.0" },
+      headers: { "User-Agent": "CeTeau-AI/1.0" },
     });
     const contentType = response.headers.get("content-type") || "";
     let data: any;

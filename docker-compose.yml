@@ -1,10 +1,11 @@
 services:
-  tiger-cowork:
+  ceteau-ai:
     build: .
     # container_name intentionally omitted so Docker auto-generates a
-    # unique name per project (e.g. "ceteau-main-tiger-cowork-1") and
+    # unique name per project (e.g. "tiger_cowork-main-ceteau-ai-1") and
     # re-runs / parallel test instances never collide on the name.
     ports:
+      # Host:Container — 8080 on the host, 3001 inside the container.
       - "8080:3001"
     env_file:
       - .env
