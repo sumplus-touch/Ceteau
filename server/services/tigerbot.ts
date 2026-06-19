@@ -1008,8 +1008,11 @@ async function getApiConfig() {
 
 // Kimi Code API gates access by requiring Claude Code identity headers.
 const KIMI_HEADERS: Record<string, string> = {
-  "User-Agent": "claude-code/1.0",
+  "User-Agent": "claude-code/1.0.6",
   "X-Client-Name": "claude-code",
+  "X-Client-Version": "1.0.6",
+  "HTTP-Referer": "https://claude.ai",
+  "X-Traffic-Source": "claude-code",
 };
 
 // Single LLM call (no tool loop)
@@ -1237,7 +1240,7 @@ async function llmCall(messages: ChatMessage[], options: { tools?: any[]; model?
       model: options.model || model,
       messages: anthropicMsgs,
       system: system || undefined,
-      temperature: settings.agentTemperature ?? 0.7,
+      temperature: isKimi ? 1 : (settings.agentTemperature ?? 0.7),
       max_tokens: maxTokens,
     };
     if (options.tools?.length) {
@@ -1254,6 +1257,7 @@ async function llmCall(messages: ChatMessage[], options: { tools?: any[]; model?
         "Content-Type": "application/json",
         ...authHeaders,
         "anthropic-version": "2023-06-01",
+        ...(isKimi ? KIMI_HEADERS : {}),
       },
       body: JSON.stringify(body),
       signal: options.signal,
@@ -1263,7 +1267,7 @@ async function llmCall(messages: ChatMessage[], options: { tools?: any[]; model?
     body = {
       model: options.model || model,
       messages: sanitized,
-      temperature: settings.agentTemperature ?? 0.7,
+      temperature: isKimi ? 1 : (settings.agentTemperature ?? 0.7),
       max_tokens: maxTokens,
     };
     if (options.tools && options.tools.length) {
@@ -2364,12 +2368,13 @@ export async function streamTigerBot(
           "Content-Type": "application/json",
           ...authHeaders,
           "anthropic-version": "2023-06-01",
+          ...(isKimi ? KIMI_HEADERS : {}),
         },
         body: JSON.stringify({
           model,
           messages: anthropicMsgs,
           system: system || undefined,
-          temperature: settings.agentTemperature ?? 0.7,
+          temperature: isKimi ? 1 : (settings.agentTemperature ?? 0.7),
           max_tokens: 40960,
           stream: true,
         }),
@@ -2385,7 +2390,7 @@ export async function streamTigerBot(
         body: JSON.stringify({
           model,
           messages: allMessages,
-          temperature: settings.agentTemperature ?? 0.7,
+          temperature: isKimi ? 1 : (settings.agentTemperature ?? 0.7),
           max_tokens: 40960,
           stream: true,
         }),

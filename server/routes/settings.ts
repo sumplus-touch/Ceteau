@@ -156,7 +156,13 @@ export async function settingsRoutes(fastify: FastifyInstance) {
         const url = rawUrl.endsWith("/chat/completions") ? rawUrl : rawUrl.replace(/\/$/, "") + "/chat/completions";
         const isKimi = provider === "kimi" || rawUrl.includes("api.kimi.com");
         const kimiHeaders: Record<string, string> = isKimi
-          ? { "User-Agent": "claude-code/1.0", "X-Client-Name": "claude-code" }
+          ? {
+              "User-Agent": "claude-code/1.0.6",
+              "X-Client-Name": "claude-code",
+              "X-Client-Version": "1.0.6",
+              "HTTP-Referer": "https://claude.ai",
+              "X-Traffic-Source": "claude-code",
+            }
           : {};
         const response = await fetch(url, {
           method: "POST",
