@@ -26,3 +26,12 @@ Tiger_bot/skills/web-pilot/
 # to run locally without re-entering API keys). If you ever want to
 # stop tracking it, add `.env` back here and run:
 #   git rm --cached .env && git commit -m "Untrack .env"
+
+# /design-sync
+.ds-sync/
+ds-bundle/
+.design-sync/.cache/
+.design-sync/learnings/
+.design-sync/node_modules
+client/_ds_entry.tsx
+client/ds-styles.css

@@ -1,0 +1,28 @@
+{
+  "projectId": "872c07f9-924b-4bb3-b3b9-d9d03fb0e53b",
+  "pkg": "cowork-client",
+  "globalName": "CeTeauUI",
+  "shape": "package",
+  "entry": "client/_ds_entry.tsx",
+  "buildCmd": "cd client && npx vite build && cat dist/assets/index-*.css dist/assets/AgentEditor-*.css > ds-styles.css",
+  "srcDir": "src/components",
+  "cssEntry": "ds-styles.css",
+  "readmeHeader": ".design-sync/conventions.md",
+  "provider": { "component": "MemoryRouter" },
+  "runtimeFontPrefixes": ["Google Sans", "Noto Sans Thai", "Roboto", "Fira Code"],
+  "overrides": {
+    "Toaster": { "cardMode": "single", "viewport": "460x340" }
+  },
+  "componentSrcMap": {
+    "Icon": "src/components/Icon.tsx",
+    "UserMessageBubble": "src/components/MessageBubble.tsx",
+    "CopyButton": "src/components/MessageBubble.tsx",
+    "AgentEditor": "src/components/AgentEditor.tsx",
+    "AuthGate": "src/components/AuthGate.tsx",
+    "ReactComponentRenderer": "src/components/ReactComponentRenderer.tsx",
+    "AppShell": "src/components/layout/AppShell.tsx",
+    "ChatInputBar": "src/components/layout/ChatInputBar.tsx",
+    "Sidebar": "src/components/layout/Sidebar.tsx",
+    "Toaster": "src/components/layout/Toaster.tsx"
+  }
+}
