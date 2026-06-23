@@ -828,7 +828,7 @@ export default function ProjectDetailPage() {
   return (
     <div className="flex-1 min-h-0 flex flex-col bg-bg-base">
       {/* ── Header ─────────────────────────────────────────────── */}
-      <div className="px-6 pt-4 pb-2 shrink-0">
+      <div className="px-4 sm:px-6 pt-4 pb-2 shrink-0">
         <button
           type="button"
           onClick={() => navigate("/project")}
@@ -849,7 +849,7 @@ export default function ProjectDetailPage() {
       </div>
 
       {/* ── Tab nav ────────────────────────────────────────────── */}
-      <div className="px-6 border-b border-border shrink-0">
+      <div className="px-4 sm:px-6 border-b border-border shrink-0">
         <div className="flex items-center gap-1">
           {TABS.map((t) => (
             <button
@@ -870,7 +870,7 @@ export default function ProjectDetailPage() {
       </div>
 
       {/* ── Pills row (yellow short-code + green skill pills) ─── */}
-      <div className="px-6 py-2 border-b border-border shrink-0 flex items-center gap-2 overflow-x-auto">
+      <div className="px-4 sm:px-6 py-2 border-b border-border shrink-0 flex items-center gap-2 overflow-x-auto">
         <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wider bg-yellow-400/20 text-yellow-700 dark:text-yellow-300 border border-yellow-500/30 shrink-0">
           {code}
         </span>

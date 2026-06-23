@@ -503,7 +503,7 @@ export default function ChatInputBar({
     <div className="chat-input-card max-w-[820px] w-full mx-auto rounded-2xl border border-border bg-bg-surface shadow-sm relative">
 
       {/* ── Row 1: + | textarea | mic ── */}
-      <div className="flex items-start gap-2 px-4 pt-3 pb-2">
+      <div className="flex items-start gap-1.5 sm:gap-2 px-2.5 sm:px-4 pt-3 pb-2">
         <button
           type="button"
           onClick={onAttachClick}
@@ -544,7 +544,7 @@ export default function ChatInputBar({
       {/* P2: bottom strip background matches the chat-input card
           (--bg-primary = #1E293B in dark). Previously bg-bg-base/40
           rendered as a darker overlay; now it's a clean continuation. */}
-      <div className="flex items-center gap-2 px-3 py-2 border-t border-border bg-[var(--bg-primary)] text-[12px]">
+      <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-2 border-t border-border bg-[var(--bg-primary)] text-[11px] sm:text-[12px] flex-wrap">
 
         {/* Ask/Act dropdown */}
         <div className="relative shrink-0">

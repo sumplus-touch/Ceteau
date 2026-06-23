@@ -57,7 +57,7 @@ export default function ChatsPage() {
 
   return (
     <div className="flex-1 min-h-0 overflow-y-auto bg-bg-base">
-      <div className="max-w-4xl mx-auto px-6 py-6">
+      <div className="max-w-4xl mx-auto px-4 py-4 sm:px-6 sm:py-6">
         {isEmpty ? (
           /* ── Empty state ──────────────────────────────────────── */
           <div className="flex items-center justify-center min-h-[60vh]">
@@ -80,35 +80,31 @@ export default function ChatsPage() {
         ) : (
           <>
             {/* ── Header ─────────────────────────────────────────── */}
-            <div className="flex items-center justify-between gap-4 mb-5">
-              <div>
-                <h1 className="text-2xl font-bold text-fg-base">All Chats</h1>
+            <div className="flex flex-wrap items-center gap-3 mb-5">
+              <div className="mr-auto">
+                <h1 className="text-xl sm:text-2xl font-bold text-fg-base">All Chats</h1>
                 <p className="text-xs text-fg-muted mt-0.5">
                   {conversations.length} {conversations.length === 1 ? "conversation" : "conversations"}
                 </p>
               </div>
-              <div className="flex items-center gap-2 shrink-0">
-                {/* Search */}
-                <div className="relative">
-                  <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-fg-subtle pointer-events-none" />
-                  <input
-                    type="text"
-                    placeholder="Search…"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    className="w-44 pl-7 pr-3 py-1.5 rounded-md border border-border bg-bg-surface text-xs text-fg-base placeholder:text-fg-subtle focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
-                  />
-                </div>
-                {/* + New chat */}
-                <button
-                  type="button"
-                  onClick={() => navigate("/")}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-accent text-white text-xs font-medium hover:bg-accent/90 transition-colors duration-150"
-                >
-                  <Plus size={13} />
-                  New chat
-                </button>
+              <div className="relative">
+                <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-fg-subtle pointer-events-none" />
+                <input
+                  type="text"
+                  placeholder="Search…"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  className="w-36 sm:w-44 pl-7 pr-3 py-1.5 rounded-md border border-border bg-bg-surface text-xs text-fg-base placeholder:text-fg-subtle focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
+                />
               </div>
+              <button
+                type="button"
+                onClick={() => navigate("/")}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-accent text-white text-xs font-medium hover:bg-accent/90 transition-colors duration-150 whitespace-nowrap"
+              >
+                <Plus size={13} />
+                New chat
+              </button>
             </div>
 
             {/* ── Body — chat list ───────────────────────────────── */}
@@ -123,9 +119,9 @@ export default function ChatsPage() {
                     key={c.id}
                     type="button"
                     onClick={() => navigate(`/chat/${c.id}`)}
-                    className="group w-full text-left rounded-lg border border-border bg-bg-surface hover:border-accent/40 hover:bg-fg-base/[0.02] transition-all duration-150 px-4 py-3 flex items-center gap-3"
+                    className="group w-full text-left rounded-lg border border-border bg-bg-surface hover:border-accent/40 hover:bg-fg-base/[0.02] transition-all duration-150 px-3 py-2.5 sm:px-4 sm:py-3 flex items-center gap-2.5 sm:gap-3"
                   >
-                    <div className="w-8 h-8 rounded-md bg-accent/10 flex items-center justify-center shrink-0">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-md bg-accent/10 flex items-center justify-center shrink-0">
                       <MessageSquare size={14} className="text-accent" />
                     </div>
                     <div className="flex-1 min-w-0">

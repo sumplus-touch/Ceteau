@@ -201,7 +201,7 @@ function ProjectCard({
     <button
       type="button"
       onClick={onClick}
-      className="group text-left rounded-xl border border-border bg-bg-surface hover:border-accent/40 hover:shadow-md transition-all duration-150 p-4 flex flex-col gap-2 min-h-[140px]"
+      className="group text-left rounded-xl border border-border bg-bg-surface hover:border-accent/40 hover:shadow-md transition-all duration-150 p-3 sm:p-4 flex flex-col gap-1.5 sm:gap-2 min-h-[100px] sm:min-h-[140px]"
     >
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2 min-w-0">
@@ -254,9 +254,9 @@ function ProjectRow({
     <button
       type="button"
       onClick={onClick}
-      className="group w-full text-left rounded-lg border border-border bg-bg-surface hover:border-accent/40 hover:bg-fg-base/[0.02] transition-all duration-150 px-4 py-3 flex items-center gap-3"
+      className="group w-full text-left rounded-lg border border-border bg-bg-surface hover:border-accent/40 hover:bg-fg-base/[0.02] transition-all duration-150 px-3 py-2.5 sm:px-4 sm:py-3 flex items-center gap-2.5 sm:gap-3"
     >
-      <div className="w-8 h-8 rounded-md bg-accent/10 flex items-center justify-center shrink-0">
+      <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-md bg-accent/10 flex items-center justify-center shrink-0">
         <FolderOpen size={14} className="text-accent" />
       </div>
       <div className="flex-1 min-w-0">
@@ -265,7 +265,7 @@ function ProjectRow({
           <p className="text-xs text-fg-muted truncate">{project.description}</p>
         )}
       </div>
-      <div className="text-[11px] text-fg-subtle shrink-0">
+      <div className="text-[10px] sm:text-[11px] text-fg-subtle shrink-0">
         {formatRelative(project.updatedAt)}
       </div>
       <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-150 shrink-0">
@@ -371,7 +371,7 @@ export default function ProjectsPage() {
 
   return (
     <div className="flex-1 min-h-0 overflow-y-auto bg-bg-base">
-      <div className="max-w-6xl mx-auto px-6 py-6">
+      <div className="max-w-6xl mx-auto px-4 py-4 sm:px-6 sm:py-6">
         {isEmpty ? (
           /* ── Empty state ──────────────────────────────────────── */
           <div className="flex items-center justify-center min-h-[60vh]">
@@ -394,68 +394,63 @@ export default function ProjectsPage() {
         ) : (
           <>
             {/* ── Header ─────────────────────────────────────────── */}
-            <div className="flex items-center justify-between gap-4 mb-5">
-              <div>
-                <h1 className="text-2xl font-bold text-fg-base">Projects</h1>
+            <div className="flex flex-wrap items-center gap-3 mb-5">
+              <div className="mr-auto">
+                <h1 className="text-xl sm:text-2xl font-bold text-fg-base">Projects</h1>
                 <p className="text-xs text-fg-muted mt-0.5">
                   {projects.length} {projects.length === 1 ? "project" : "projects"}
                 </p>
               </div>
-              <div className="flex items-center gap-2 shrink-0">
-                {/* Search */}
-                <div className="relative">
-                  <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-fg-subtle pointer-events-none" />
-                  <input
-                    type="text"
-                    placeholder="Search…"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    className="w-44 pl-7 pr-3 py-1.5 rounded-md border border-border bg-bg-surface text-xs text-fg-base placeholder:text-fg-subtle focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
-                  />
-                </div>
+              <div className="relative">
+                <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-fg-subtle pointer-events-none" />
+                <input
+                  type="text"
+                  placeholder="Search…"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  className="w-36 sm:w-44 pl-7 pr-3 py-1.5 rounded-md border border-border bg-bg-surface text-xs text-fg-base placeholder:text-fg-subtle focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent"
+                />
+              </div>
 
-                {/* View toggle */}
-                <div className="flex items-center rounded-md border border-border bg-bg-surface p-0.5">
-                  <button
-                    type="button"
-                    onClick={() => setView("grid")}
-                    className={clsx(
-                      "p-1.5 rounded transition-colors duration-150",
-                      view === "grid"
-                        ? "bg-accent/10 text-accent"
-                        : "text-fg-subtle hover:text-fg-base hover:bg-fg-base/5",
-                    )}
-                    title="Grid view"
-                    aria-label="Grid view"
-                  >
-                    <LayoutGrid size={13} />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setView("list")}
-                    className={clsx(
-                      "p-1.5 rounded transition-colors duration-150",
-                      view === "list"
-                        ? "bg-accent/10 text-accent"
-                        : "text-fg-subtle hover:text-fg-base hover:bg-fg-base/5",
-                    )}
-                    title="List view"
-                    aria-label="List view"
-                  >
-                    <ListIcon size={13} />
-                  </button>
-                </div>
-
-                {/* + New Project */}
+              <div className="flex items-center rounded-md border border-border bg-bg-surface p-0.5">
                 <button
                   type="button"
-                  onClick={() => setCreating(true)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-accent text-white text-xs font-medium hover:bg-accent/90 transition-colors duration-150"
+                  onClick={() => setView("grid")}
+                  className={clsx(
+                    "p-1.5 rounded transition-colors duration-150",
+                    view === "grid"
+                      ? "bg-accent/10 text-accent"
+                      : "text-fg-subtle hover:text-fg-base hover:bg-fg-base/5",
+                  )}
+                  title="Grid view"
+                  aria-label="Grid view"
                 >
-                  <Plus size={13} />
-                  New Project
+                  <LayoutGrid size={13} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setView("list")}
+                  className={clsx(
+                    "p-1.5 rounded transition-colors duration-150",
+                    view === "list"
+                      ? "bg-accent/10 text-accent"
+                      : "text-fg-subtle hover:text-fg-base hover:bg-fg-base/5",
+                  )}
+                  title="List view"
+                  aria-label="List view"
+                >
+                  <ListIcon size={13} />
                 </button>
               </div>
+
+              <button
+                type="button"
+                onClick={() => setCreating(true)}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-accent text-white text-xs font-medium hover:bg-accent/90 transition-colors duration-150 whitespace-nowrap"
+              >
+                <Plus size={13} />
+                New Project
+              </button>
             </div>
 
             {/* ── Sort pills ─────────────────────────────────────── */}

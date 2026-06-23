@@ -61,13 +61,16 @@ export default function AuthGate({ children }: { children: ReactNode }) {
     return (
       <div style={{
         display: "flex", justifyContent: "center", alignItems: "center",
-        height: "100vh", background: "#0f172a",
+        height: "100vh", padding: "1rem",
+        background: "#0f172a",
       }}>
         <form onSubmit={handleSubmit} style={{
-          background: "#1e293b", borderRadius: 12, padding: "2.5rem",
-          minWidth: 340, boxShadow: "0 4px 24px rgba(0,0,0,0.4)",
+          background: "#1e293b", borderRadius: 12,
+          padding: "clamp(1.5rem, 5vw, 2.5rem)",
+          width: "100%", maxWidth: 400,
+          boxShadow: "0 4px 24px rgba(0,0,0,0.4)",
         }}>
-          <h2 style={{ color: "#f1f5f9", margin: "0 0 0.5rem", fontSize: "1.4rem" }}>
+          <h2 style={{ color: "#f1f5f9", margin: "0 0 0.5rem", fontSize: "clamp(1.2rem, 4vw, 1.4rem)" }}>
             CeTeau <span style={{ color: "#0073C2" }}>| AI</span>
           </h2>
           <p style={{ color: "#64748b", margin: "0 0 1.5rem", fontSize: "0.9rem" }}>
@@ -82,7 +85,7 @@ export default function AuthGate({ children }: { children: ReactNode }) {
             style={{
               width: "100%", padding: "0.7rem 0.9rem", borderRadius: 8,
               border: "1px solid #334155", background: "#0f172a",
-              color: "#f1f5f9", fontSize: "1rem", outline: "none",
+              color: "#f1f5f9", fontSize: "16px", outline: "none",
               boxSizing: "border-box",
             }}
           />
@@ -92,7 +95,7 @@ export default function AuthGate({ children }: { children: ReactNode }) {
             </div>
           )}
           <button type="submit" style={{
-            width: "100%", marginTop: "1rem", padding: "0.7rem",
+            width: "100%", marginTop: "1rem", padding: "0.75rem",
             borderRadius: 8, border: "none", background: "#3b82f6",
             color: "#fff", fontSize: "1rem", cursor: "pointer",
             fontWeight: 600,

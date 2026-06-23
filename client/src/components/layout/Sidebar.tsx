@@ -15,6 +15,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import clsx from "clsx";
 import { useThemeStore } from "../../store/theme";
+import { useSidebarStore } from "../../store/sidebar";
 import { useConversationsStore } from "../../store/conversations";
 import { useProjectsStore } from "../../store/projects";
 import { api, clearAccessToken } from "../../utils/api";
@@ -233,6 +234,8 @@ function ThemeToggleButton() {
 export default function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const sidebarOpen = useSidebarStore((s) => s.open);
+  const closeSidebar = useSidebarStore((s) => s.setOpen);
 
   // Conversations store
   const conversations     = useConversationsStore((s) => s.conversations);
@@ -316,6 +319,7 @@ export default function Sidebar() {
   // creates the session with the prompt's first ~50 chars as the title.
   function handleNewChat() {
     navigate("/");
+    closeSidebar(false);
   }
 
   return (
@@ -327,7 +331,10 @@ export default function Sidebar() {
       onDragEnd={handleDragEnd}
       onDragCancel={() => setActiveDragId(null)}
     >
-      <aside className="w-72 shrink-0 h-full flex flex-col bg-bg-surface border-r border-border text-fg-muted">
+      <aside className={clsx(
+        "sidebar-drawer shrink-0 h-full flex flex-col bg-bg-surface border-r border-border text-fg-muted",
+        sidebarOpen && "open",
+      )}>
 
         {/* ─── TOP: brand + agent-mode chip + new chat + primary nav ─── */}
         <div className="p-3 shrink-0">

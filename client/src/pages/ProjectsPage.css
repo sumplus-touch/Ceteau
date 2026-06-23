@@ -704,7 +704,7 @@
   max-width: 100%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .project-files-layout {
     flex-direction: column;
   }
@@ -977,7 +977,18 @@
   text-align: center;
 }
 
-/* ─── Mobile ─── */
+/* ═══ Responsive — Tablet (≤1024px) ═══ */
+@media (max-width: 1024px) {
+  .overview-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .project-chat-sessions {
+    width: 160px;
+  }
+}
+
+/* ═══ Responsive — Mobile landscape & smaller (≤768px) ═══ */
 @media (max-width: 768px) {
   .projects-page {
     flex-direction: column;
@@ -1020,7 +1031,7 @@
   }
 
   .project-detail-header {
-    padding: 12px 12px 0;
+    padding: 12px 14px 0;
   }
 
   .project-detail-title h2 {
@@ -1057,7 +1068,6 @@
     font-size: 24px;
   }
 
-  /* Chat mobile — session sidebar as slide-in panel */
   .mobile-sessions-toggle {
     display: flex;
     align-items: center;
@@ -1120,7 +1130,7 @@
   }
 
   .project-chat-messages .message {
-    padding: 10px 10px;
+    padding: 10px 12px;
   }
 
   .folder-picker {
@@ -1129,6 +1139,40 @@
 
   .access-options {
     flex-direction: column;
+  }
+}
+
+/* ═══ Responsive — Mobile portrait (≤480px) ═══ */
+@media (max-width: 480px) {
+  .projects-welcome h1 {
+    font-size: 20px;
+  }
+
+  .projects-welcome p {
+    font-size: 13px;
+  }
+
+  .project-detail-title h2 {
+    font-size: 16px;
+  }
+
+  .project-chat-empty h3 {
+    font-size: 17px;
+  }
+
+  .project-chat-empty p {
+    font-size: 13px;
+  }
+
+  .overview-card {
+    padding: 14px 16px;
+    gap: 10px;
+  }
+
+  .overview-card-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
   }
 }
 

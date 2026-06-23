@@ -349,15 +349,88 @@ pre code {
   justify-content: center;
 }
 
-/* ─── Mobile ─── */
-@media (max-width: 768px) {
+/* ═══════════════════════════════════════════════════════════════════════
+   Responsive layout system
+   ─────────────────────────────────────────────────────────────────────
+   Breakpoints (mobile-first):
+     sm  ≤480px   Mobile portrait
+     md  481–768  Mobile landscape / small tablet
+     lg  769–1024 Tablet portrait & landscape
+     xl  1025–1440 Laptop & small desktop
+     2xl >1440    Desktop monitor
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ─── Mobile header bar (visible < 1024px) ─── */
+.mobile-header {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-height);
+  z-index: 150;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+}
+
+/* ─── Sidebar drawer ─── */
+.sidebar-drawer {
+  width: var(--sidebar-width);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Sidebar backdrop (mobile) ─── */
+.sidebar-backdrop {
+  display: none;
+}
+
+/* ─── Below lg (≤1024px): sidebar becomes a slide-in drawer ─── */
+@media (max-width: 1024px) {
+  .mobile-header {
+    display: flex;
+  }
+
+  /* Push main content below the fixed header */
+  main {
+    margin-top: var(--header-height);
+  }
+
+  .sidebar-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 300;
+    transform: translateX(-100%);
+    box-shadow: none;
+  }
+
+  .sidebar-drawer.open {
+    transform: translateX(0);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 250;
+  }
+}
+
+/* ─── Mobile portrait (≤480px) ─── */
+@media (max-width: 480px) {
   :root {
-    --sidebar-width: 260px;
+    --sidebar-width: 280px;
     --header-height: 48px;
   }
 
   .btn {
-    padding: 8px 14px;
+    padding: 6px 12px;
     font-size: 13px;
   }
 
@@ -368,5 +441,44 @@ pre code {
 
   input, textarea, select {
     font-size: 16px; /* prevents iOS zoom on focus */
+  }
+}
+
+/* ─── Mobile landscape / small tablet (481–768px) ─── */
+@media (min-width: 481px) and (max-width: 768px) {
+  :root {
+    --sidebar-width: 300px;
+    --header-height: 48px;
+  }
+
+  .btn {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  input, textarea, select {
+    font-size: 16px;
+  }
+}
+
+/* ─── Tablet (769–1024px) ─── */
+@media (min-width: 769px) and (max-width: 1024px) {
+  :root {
+    --sidebar-width: 300px;
+    --header-height: 52px;
+  }
+}
+
+/* ─── Laptop & small desktop (1025–1440px) ─── */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  :root {
+    --sidebar-width: 260px;
+  }
+}
+
+/* ─── Desktop monitor (>1440px) ─── */
+@media (min-width: 1441px) {
+  :root {
+    --sidebar-width: 300px;
   }
 }

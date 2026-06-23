@@ -1295,10 +1295,11 @@
   justify-content: center;
 }
 
-/* Responsive: stack output panel below on medium screens */
+/* ═══ Responsive — Tablet & below (≤1024px): output panel stacks ═══ */
 @media (max-width: 1024px) {
   .output-panel {
     width: 100%;
+    min-width: unset;
     max-height: 50vh;
     border-left: none;
     border-top: 1px solid var(--border);
@@ -1307,9 +1308,16 @@
   .chat-page {
     flex-wrap: wrap;
   }
+
+  .output-panel-toggle {
+    right: 12px;
+    bottom: 72px;
+    width: 40px;
+    height: 40px;
+  }
 }
 
-/* ─── Mobile ─── */
+/* ═══ Responsive — Mobile landscape & smaller (≤768px) ═══ */
 @media (max-width: 768px) {
   .chat-page {
     flex-direction: column;
@@ -1329,10 +1337,6 @@
 
   .chat-sidebar.mobile-open {
     transform: translateX(0);
-  }
-
-  .chat-sidebar-backdrop {
-    display: none;
   }
 
   .chat-sidebar-backdrop.visible {
@@ -1361,6 +1365,7 @@
 
   .chat-empty {
     padding: 24px 16px;
+    padding-bottom: 160px;
   }
 
   .chat-empty h1 {
@@ -1383,48 +1388,34 @@
   }
 
   .message {
-    padding: 12px 8px;
+    padding: 12px 12px;
     gap: 8px;
     max-width: 100%;
   }
 
-  .message-avatar {
-    width: 28px;
-    height: 28px;
-    min-width: 28px;
-    font-size: 11px;
+  .message.user .message-content {
+    max-width: 85%;
   }
 
   .message-content {
-    font-size: 13px;
+    font-size: 14px;
     line-height: 1.5;
     overflow-wrap: break-word;
     word-break: break-word;
-    max-width: calc(100vw - 72px);
     overflow-x: hidden;
   }
 
   .chat-status {
     font-size: 12px;
-    margin: 6px 8px;
+    margin: 6px 12px;
     padding: 8px 12px;
     max-width: 100%;
     box-sizing: border-box;
     word-break: break-word;
   }
 
-  .doc-preview-error {
-    font-size: 12px;
-    padding: 12px;
-    word-break: break-word;
-  }
-
-  .message-content h1 { font-size: 1.15em; }
-  .message-content h2 { font-size: 1.05em; }
-  .message-content h3 { font-size: 1em; }
-
   .message-content pre {
-    font-size: 11px;
+    font-size: 12px;
     overflow-x: auto;
     max-width: 100%;
     white-space: pre-wrap;
@@ -1432,13 +1423,13 @@
   }
 
   .message-content code {
-    font-size: 11px;
+    font-size: 12px;
     word-break: break-all;
     overflow-wrap: break-word;
   }
 
   .message-content table {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .message-content th,
@@ -1454,38 +1445,19 @@
 
   .message-content blockquote {
     padding: 2px 8px;
-    font-size: 12px;
+    font-size: 13px;
   }
 
   .chat-input-container {
-    padding: 10px 10px;
-  }
-
-  .chat-input-wrapper {
-    padding: 6px 10px;
+    padding: 10px 12px;
   }
 
   .chat-input {
-    font-size: 16px; /* prevent iOS zoom */
+    font-size: 16px;
   }
 
   .chat-input-hint {
     font-size: 10px;
-  }
-
-  .output-panel {
-    width: 100%;
-    min-width: unset;
-    max-height: 50vh;
-    border-left: none;
-    border-top: 1px solid var(--border);
-  }
-
-  .output-panel-toggle {
-    right: 12px;
-    bottom: 72px;
-    width: 40px;
-    height: 40px;
   }
 
   .canvas-html-iframe {
@@ -1502,8 +1474,78 @@
 
   .doc-preview-body {
     padding: 10px 12px;
-    font-size: 11px;
+    font-size: 12px;
     line-height: 1.5;
+  }
+
+  .doc-preview-body h1 { font-size: 16px; }
+  .doc-preview-body h2 { font-size: 14px; }
+  .doc-preview-body h3 { font-size: 13px; }
+
+  .canvas-react-body {
+    padding: 8px;
+    min-height: 150px;
+  }
+
+  .canvas-image {
+    max-height: 300px;
+  }
+
+  .attachment-item {
+    max-width: 100%;
+  }
+
+  .scroll-to-bottom-btn {
+    bottom: 170px;
+  }
+}
+
+/* ═══ Responsive — Mobile portrait (≤480px) ═══ */
+@media (max-width: 480px) {
+  .chat-empty h1 {
+    font-size: 20px;
+  }
+
+  .chat-empty p {
+    font-size: 13px;
+  }
+
+  .message {
+    padding: 10px 8px;
+  }
+
+  .message.user .message-content {
+    max-width: 90%;
+  }
+
+  .message-content {
+    font-size: 13px;
+  }
+
+  .message-content pre {
+    font-size: 11px;
+  }
+
+  .message-content code {
+    font-size: 11px;
+  }
+
+  .message-content table {
+    font-size: 11px;
+  }
+
+  .message-content th,
+  .message-content td {
+    padding: 3px 5px;
+  }
+
+  .chat-input-container {
+    padding: 8px 8px;
+  }
+
+  .doc-preview-body {
+    padding: 8px 10px;
+    font-size: 11px;
   }
 
   .doc-preview-body h1 { font-size: 15px; }
@@ -1519,17 +1561,18 @@
     padding: 3px 5px;
   }
 
-  .canvas-react-body {
-    padding: 8px;
-    min-height: 150px;
+  .doc-preview-error {
+    font-size: 12px;
+    padding: 12px;
+    word-break: break-word;
   }
 
   .canvas-image {
-    max-height: 280px;
+    max-height: 240px;
   }
 
-  .attachment-item {
-    max-width: 100%;
+  .user-attachments-row {
+    max-width: 90%;
   }
 }
 
